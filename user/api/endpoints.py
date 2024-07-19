@@ -12,9 +12,11 @@ api_router = APIRouter()
 
 @api_router.post("/register", response_model=UserDto)
 def register_user_api(payload: RegisterUserRequestDto, db: Session = Depends(get_db)):
+    # Add validations
     return register_user(payload, db)
 
 
 @api_router.post("/assign", response_model=AssignRoleResponseDto)
 def assign_role_api(payload: AssignRoleRequestDto, db: Session = Depends(get_db)):
+    # Add validations
     return assign_roles_to_user(payload, db)

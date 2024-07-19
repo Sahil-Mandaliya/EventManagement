@@ -16,6 +16,7 @@ def assign_roles_to_user(assign_roles_request_dto:AssignRoleRequestDto, db: Sess
     for role in roles:
         roles_str.append(role.name)
 
+    print("=========== ROLES =========== ", roles_str)
     response  = AssignRoleResponseDto(
         username=updated_user.username,
         roles=roles_str

@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class UserDto(BaseModel):
@@ -5,7 +6,7 @@ class UserDto(BaseModel):
     username: str
     email: str
     phone: str
-    hashed_password: str
+    hashed_password: Optional[str]
     
     class Config:
         orm_mode = True
