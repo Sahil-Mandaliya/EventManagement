@@ -4,14 +4,14 @@ pyenv:
 	pyenv activate fast-3.9.2
 
 build:
-	make pyenv
 	pip3 install -r requirements.txt
 
 start:
-	uvicorn app.main:app --reload
+	uvicorn main:app --reload
 
 migration:
-	python3 manage.py makemigrations
+	@read -p "Enter migration message:" message; \
+	alembic revision --autogenerate -m "$$message"
 
 migrate:
-	python3 manage.py migrate
+	alembic upgrade head
