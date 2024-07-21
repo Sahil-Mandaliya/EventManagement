@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 import json
 from typing import List
 from pydantic import BaseModel, ValidationError
+
 
 def convert_json_to_pydantic(json_data: dict, model_class: BaseModel):
     try:
@@ -11,7 +13,8 @@ def convert_json_to_pydantic(json_data: dict, model_class: BaseModel):
         raise Exception(f"Validation error: {e}")
     except json.JSONDecodeError as e:
         raise Exception(f"JSON decode error: {e}")
-    
+
+
 def convert_json_list_to_pydantic_list(json_data_list: List[dict], model_class: BaseModel):
     new_list = []
     for json_data in json_data_list:
@@ -27,13 +30,13 @@ def convert_json_list_to_pydantic_list(json_data_list: List[dict], model_class: 
     return new_list
 
 
-
 def pydantic_to_json(model_class: BaseModel):
     return model_class.dict(exclude_none=True)
+
 
 def pydantic_list_to_json(model_class_list):
     new_list = []
     for item in model_class_list:
         new_list.append(item.dict(exclude_none=True))
-    
+
     return new_list

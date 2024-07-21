@@ -14,7 +14,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Jodo API
+# Event Management Service
 
 ### 1. Requirements
 
@@ -87,11 +87,13 @@ In order to build the service image and run the service run following command.
 
 ```sh
 cd ~/src/tech/EventManagement
-make precommit
+make install # installs requirements
 make build # builds the api service image
-make createuser   # Create super user
-make initialdata # Populates the initial data
-make start        # Start the service
+make start
+make migration
+make migrate
+make create-superuser USERNAME={} PASSWORD={} EMAIL={} FULL_NAME={} PHONE={} # Admin user - Access to add new user/events/ asssign roles
+
 ```
 
 ### 3. Deployment
@@ -102,4 +104,21 @@ then run following command-
 ```sh
 make build
 make start
+```
+
+
+### 4. One time activity
+
+* To start with After Creating super user - Creates One Admin User and Adds Roles ["admin", "user"] in the system
+* Login to current system for super user using Login API - It will returns the Access token [ Valid for 60 minutes ]
+* Super User Can Add New Users
+* Can Assign roles to users
+
+* Users with role type "admin" can Add new Users, Assign roles, Add / update / delete Events
+
+
+### 5. Swagger
+#### 5.1. Url
+```sh
+{base_url}/docs - (Base URL is mentioned in the shared postman collection)
 ```

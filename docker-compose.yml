@@ -18,7 +18,7 @@ services:
     networks:
       - default
       - event-network
-    
+
 
   event-management-service:
     image: event-management-service
