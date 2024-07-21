@@ -76,6 +76,7 @@ show hints.
 cd ~/src/tech/EventManagement
 cp env.sample .env          # get a copy of .env file
 make pyenv
+pyenv activate event-api-3.9.2
 ```
 
 In order to setup using docker, ensure that you have docker and docker-compose
