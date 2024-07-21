@@ -7,7 +7,7 @@ WORKDIR /app
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update -y && apt-get install -y \
-  build-essential \ 
+  build-essential \
   libssl-dev zlib1g-dev \
   libbz2-dev \
   libreadline-dev \

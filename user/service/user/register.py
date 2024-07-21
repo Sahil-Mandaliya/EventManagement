@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -7,40 +8,48 @@ from user.dto.user import UserDto
 from user.models.user import User
 from user.repository.user.user import assign_roles, create_user, get_user_by_parameter, update_password
 
-def is_existing_user(username=None, email=None, phone=None, db:Session = None):
+
+def is_existing_user(username=None, email=None, phone=None, db: Session = None):
     existing_user = None
     if username:
-        existing_user = get_user_by_parameter("username",username, db)
-    
+        existing_user = get_user_by_parameter("username", username, db)
+
     if email:
-        existing_user = get_user_by_parameter("email",email, db)
+        existing_user = get_user_by_parameter("email", email, db)
 
     if phone:
-        existing_user = get_user_by_parameter("phone",phone, db)
-    
+        existing_user = get_user_by_parameter("phone", phone, db)
+
     return existing_user
 
-def register_user(user_request_dto:RegisterUserRequestDto, db: Session, is_internal:bool=False):
+
+def register_user(user_request_dto: RegisterUserRequestDto, db: Session, is_internal: bool = False):
     user_dto = UserDto(
         full_name=user_request_dto.full_name,
-        username = user_request_dto.username,
-        email = user_request_dto.email,
+        username=user_request_dto.username,
+        email=user_request_dto.email,
         phone=user_request_dto.phone,
-        hashed_password = hash_password(user_request_dto.password)
+        hashed_password=hash_password(user_request_dto.password),
     )
-    
-    existing_user: User = is_existing_user(user_request_dto.username,  user_request_dto.email, user_request_dto.phone, db)
+
+    existing_user: User = is_existing_user(
+        user_request_dto.username, user_request_dto.email, user_request_dto.phone, db
+    )
     if existing_user:
         if is_internal and existing_user.hashed_password and user_dto.hashed_password:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User Already exists with given Username/Email/Phone")
-        
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="User Already exists with given Username/Email/Phone"
+            )
+
         if is_internal and not user_dto.hashed_password:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password is required to register am internal user")
-        
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Password is required to register am internal user"
+            )
+
         if is_internal and not existing_user.hashed_password and user_dto.hashed_password:
             existing_user = update_password(existing_user, user_dto.hashed_password, db)
             return existing_user
-                    
+
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User Already exists")
 
     created_user = create_user(user_dto=user_dto, db=db)

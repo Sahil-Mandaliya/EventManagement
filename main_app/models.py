@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from main_app.database import Base
 from sqlalchemy import Column, Integer, DateTime, func, Boolean
 from sqlalchemy.ext.declarative import declared_attr
@@ -12,6 +13,7 @@ class BaseModel(Base):
     def __tablename__(cls):
         return cls.__name__.lower()
 
+
 class TimeStampModel(BaseModel):
     __abstract__ = True  # Ensure this class is not mapped to any table
 
@@ -21,12 +23,13 @@ class TimeStampModel(BaseModel):
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
-    
+
+
 class SoftDeleteModel(BaseModel):
     __abstract__ = True  # Ensure this class is not mapped to any table
 
     is_deleted = Column(Boolean, default=False, nullable=True)
-    
+
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()

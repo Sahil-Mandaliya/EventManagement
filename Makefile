@@ -2,7 +2,7 @@ COMMIT_ID := `git rev-parse --short HEAD`
 
 .PHONY: install
 install:
-	make pyenv
+	pip install -r requirements.txt
 	make precommit
 	make build
 
@@ -10,8 +10,7 @@ install:
 pyenv:
 	pyenv install 3.9.2
 	pyenv virtualenv 3.9.2 event-api-3.9.2
-	pip install --upgrade pip
-	pip install -r requirements.txt
+
 
 .PHONY: build
 build:

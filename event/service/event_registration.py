@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 from fastapi import HTTPException, status
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-from event.dto.request import  EventRegistrationRequest
+from event.dto.request import EventRegistrationRequest
 from event.dto.event import EventDto, EventRegistrationDto as EventRegistrationDto
 
 from event.repository.event_registration import create_event_registration_to_db
@@ -13,23 +14,25 @@ from user.dto.user import UserDto
 from user.repository.user.user import create_user, get_user_by_parameter
 
 
-def add_event_bookings(event_id:int, event_dto:EventRegistrationRequest, db: Session):
+def add_event_bookings(event_id: int, event_dto: EventRegistrationRequest, db: Session):
     phone = event_dto.phone
     email = event_dto.email
 
     event = get_event_by_id(event_id, db)
     if not event:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Event you are trying to book is no longer available")
-    
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Event you are trying to book is no longer available"
+        )
+
     if event_dto.number_of_tickets > 10:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Maximum 10 tickets allowed per booking")
-    
+
     user = None
     if phone:
         user = get_user_by_parameter("phone", phone, db)
-    
+
     if not user and email:
-        user =  get_user_by_parameter("email", email, db)
+        user = get_user_by_parameter("email", email, db)
 
     if not user:
         user_dto = UserDto(
@@ -38,15 +41,15 @@ def add_event_bookings(event_id:int, event_dto:EventRegistrationRequest, db: Ses
             email=event_dto.email,
             username=event_dto.email,
         )
-        user  = create_user(user_dto=user_dto, db=db)
+        user = create_user(user_dto=user_dto, db=db)
 
     event_data = EventRegistration(
-        event_id = event_id,
-        user_id = user.id,
+        event_id=event_id,
+        user_id=user.id,
         registration_date=func.now(),
-        status = "Confirmed",
-        number_of_tickets = event_dto.number_of_tickets,
-        additional_notes = event_dto.additional_notes
+        status="Confirmed",
+        number_of_tickets=event_dto.number_of_tickets,
+        additional_notes=event_dto.additional_notes,
     )
 
     new_event_registration = create_event_registration_to_db(event_data=event_data, db=db)

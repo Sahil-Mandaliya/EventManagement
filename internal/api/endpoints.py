@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from auth.decorator import has_roles
 from main_app.database import get_db
@@ -11,30 +12,21 @@ from user.service.user.register import register_user
 
 api_router = APIRouter()
 
+
 @api_router.post("/user/register", response_model=RegisterUserResponse)
 @has_roles(["admin"])
-def register_internal_user_api(
-        request: Request,
-        payload: RegisterUserRequestDto, 
-        db: Session = Depends(get_db)
-    ):
+def register_internal_user_api(request: Request, payload: RegisterUserRequestDto, db: Session = Depends(get_db)):
     try:
-        user:UserDto = register_user(payload, db, True)
+        user: UserDto = register_user(payload, db, True)
         return RegisterUserResponse(
             status="success",
             message="User Added Succesfully",
-            data=UserResponse(
-                full_name=user.full_name,
-                username=user.username,
-                email=user.email,
-                phone=user.phone
-            )
+            data=UserResponse(full_name=user.full_name, username=user.username, email=user.email, phone=user.phone),
         )
     except HTTPException as err:
         raise
     except Exception as err:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Something went wrong!")
-
 
 
 @api_router.post("/role/assign", response_model=AssignRoleResponseDto)

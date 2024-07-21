@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from typing import List, Optional
 from datetime import datetime, date, time
 from dateutil.relativedelta import relativedelta
@@ -6,6 +7,7 @@ from main_app.api import ApiResponse
 
 from event.dto.event import EventDto
 from user.dto.user import RoleDto
+
 
 class CreateEventRequest(BaseModel):
     name: str
@@ -17,22 +19,23 @@ class CreateEventRequest(BaseModel):
     end_time: Optional[time]
     location: str
 
+
 def convert_create_event_request_to_event_dto(request_dto: CreateEventRequest):
     start_date = request_dto.start_date
     start_time = request_dto.start_time
-    end_date= request_dto.end_date
-    end_time=request_dto.end_time
-    duration =  request_dto.duration
+    end_date = request_dto.end_date
+    end_time = request_dto.end_time
+    duration = request_dto.duration
 
     start_date_time = datetime.combine(start_date, start_time)
     if end_date and end_time:
         end_date_time = datetime.combine(end_date, end_time)
-        duration = (end_date_time-start_date_time).total_seconds()/60
+        duration = (end_date_time - start_date_time).total_seconds() / 60
     elif duration:
         end_date_time = start_date_time + relativedelta(minutes=duration)
     else:
         end_date_time = start_date_time + relativedelta(minutes=30)
-        duration = (end_date_time-start_date_time).total_seconds()/60
+        duration = (end_date_time - start_date_time).total_seconds() / 60
 
     return EventDto(
         name=request_dto.name,
@@ -54,7 +57,7 @@ class UpdateEventRequestDto(BaseModel):
     end_date: Optional[date]
     end_time: Optional[time]
     location: Optional[str]
-    
+
 
 class EventRegistrationRequest(BaseModel):
     event_id: Optional[int]
