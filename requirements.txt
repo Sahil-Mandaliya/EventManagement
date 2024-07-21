@@ -10,3 +10,4 @@ python-dateutil==2.8.2
 pydantic-sqlalchemy==0.0.9
 python-jose==3.3.0
 passlib[bcrypt]==1.7.4
+pre-commit==2.9.3
