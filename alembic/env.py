@@ -6,7 +6,8 @@ from sqlalchemy import pool
 
 from alembic import context
 from user.models.user import User, Role
-from event.models.event import Event, EventRegistration
+from event.models.event_registration import EventRegistration
+from event.models.event import Event
 from main_app.database import Base
 from main_app.settings import env
 
@@ -45,7 +46,6 @@ def run_migrations_offline():
 
     """
     url = config.get_main_option("sqlalchemy.url")
-    print("============== URL1 ==================", url)
     context.configure(
         url=url,
         target_metadata=target_metadata,

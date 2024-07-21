@@ -6,7 +6,7 @@ from event.dto.event import EventDto, EventRegistrationDto as EventRegistrationD
 
 from event.repository.event_registration import create_event_registration_to_db
 
-from event.models.event import EventRegistration
+from event.models.event_registration import EventRegistration
 from event.service.event import get_event_by_id
 from main_app.utils.db_models import db_model_to_pydantic
 from user.dto.user import UserDto
