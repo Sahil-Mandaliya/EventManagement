@@ -39,7 +39,10 @@ def update_event_to_db(event_data:Event, db: Session):
 def delete_event_from_db(event_id, db: Session):
     try:
         event  = get_event_by_id_from_db(event_id, db)
-        event.is_deleted= True
+        if not event:
+            return None
+
+        event.is_deleted = True
         db.commit()
         db.refresh(event)
     except SQLAlchemyError as e:
@@ -52,6 +55,7 @@ def search_events_in_db(filters: dict, db:Session):
     try: 
         events = []
         query = db.query(Event)
+        query = query.filter(Event.is_deleted == False)
         for parameter in filters.keys():
             value = filters[parameter]
             if parameter == "name":
@@ -67,4 +71,4 @@ def search_events_in_db(filters: dict, db:Session):
         db.rollback()
         raise
 
-    return    
+    return []

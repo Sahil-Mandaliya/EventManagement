@@ -32,10 +32,10 @@ def register_user(user_request_dto:RegisterUserRequestDto, db: Session, is_inter
     existing_user: User = is_existing_user(user_request_dto.username,  user_request_dto.email, user_request_dto.phone, db)
     if existing_user:
         if is_internal and existing_user.hashed_password and user_dto.hashed_password:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User Already exists")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User Already exists with given Username/Email/Phone")
         
         if is_internal and not user_dto.hashed_password:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password is required to register user")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password is required to register am internal user")
         
         if is_internal and not existing_user.hashed_password and user_dto.hashed_password:
             existing_user = update_password(existing_user, user_dto.hashed_password, db)

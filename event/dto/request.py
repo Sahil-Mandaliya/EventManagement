@@ -2,11 +2,12 @@ from typing import List, Optional
 from datetime import datetime, date, time
 from dateutil.relativedelta import relativedelta
 from pydantic import BaseModel
+from main_app.api import ApiResponse
 
 from event.dto.event import EventDto
 from user.dto.user import RoleDto
 
-class CreateEventRequestDto(BaseModel):
+class CreateEventRequest(BaseModel):
     name: str
     description: Optional[str]
     start_date: Optional[date]
@@ -15,9 +16,8 @@ class CreateEventRequestDto(BaseModel):
     end_date: Optional[date]
     end_time: Optional[time]
     location: str
-    
 
-def convert_create_event_request_to_event_dto(request_dto: CreateEventRequestDto):
+def convert_create_event_request_to_event_dto(request_dto: CreateEventRequest):
     start_date = request_dto.start_date
     start_time = request_dto.start_time
     end_date= request_dto.end_date
@@ -56,10 +56,10 @@ class UpdateEventRequestDto(BaseModel):
     location: Optional[str]
     
 
-class EventRegistrationRequestDto(BaseModel):
+class EventRegistrationRequest(BaseModel):
     event_id: Optional[int]
     full_name: str
     email: str
     phone: str
-    number_of_tickets: Optional[str]
+    number_of_tickets: Optional[int]
     additional_notes: Optional[str]
