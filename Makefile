@@ -15,6 +15,7 @@ pyenv:
 
 .PHONY: build
 build:
+	pyenv activate event-api-3.9.2
 	pip3 install -r requirements.txt
 
 .PHONY: start
