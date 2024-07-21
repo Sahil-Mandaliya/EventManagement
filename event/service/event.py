@@ -1,11 +1,14 @@
+from datetime import datetime
+from typing import Optional
 from dateutil.relativedelta import relativedelta
-from fastapi import Depends, HTTPException
+from fastapi import Depends
 from sqlalchemy.orm import Session
 from event.dto.event import EventDto
 from event.dto.request import UpdateEventRequestDto
-from event.repository.event import create_event_to_db, delete_event_from_db, get_all_events_from_db, get_event_by_id_from_db, update_event_to_db
+from event.repository.event import create_event_to_db, delete_event_from_db, get_all_events_from_db, get_event_by_id_from_db, search_events_in_db, update_event_to_db
 
 from event.models.event import Event
+from main_app.database import get_db
 from main_app.utils.db_models import db_model_list_to_pydantic, db_model_to_pydantic
 
 
@@ -73,3 +76,25 @@ def get_event_by_id(event_id, db: Session):
 
     event = db_model_to_pydantic(db_event, EventDto)
     return event
+
+
+def search_events(
+    name: Optional[str],
+    event_date: Optional[datetime],
+    location: Optional[str],
+    db: Session = Depends(get_db)
+):
+    db_events = []
+    filters = {}
+    if name:
+        filters["name"]=name
+    
+    if event_date:
+        filters["event_date"]=event_date
+    
+    if location:
+        filters["location"]=location
+
+    db_events = search_events_in_db(filters,db)
+    events = db_model_list_to_pydantic(db_events, EventDto)
+    return events

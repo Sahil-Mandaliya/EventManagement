@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from auth.decorator import has_roles
 from event.dto.event import EventDto
 from event.dto.request import CreateEventRequestDto, EventRegistrationRequestDto, UpdateEventRequestDto, convert_create_event_request_to_event_dto
 from event.dto.response import DeleteEventResponse, EventRegistrationResponse
@@ -11,6 +12,7 @@ from sqlalchemy.orm import Session
 api_router = APIRouter()
 
 @api_router.post("/", response_model=EventDto)
+@has_roles(["admin"])
 def create_new_event_api(payload: CreateEventRequestDto, db: Session = Depends(get_db)):
     # Add validations
     event_dto = convert_create_event_request_to_event_dto(payload)
@@ -18,6 +20,7 @@ def create_new_event_api(payload: CreateEventRequestDto, db: Session = Depends(g
     # Add rollback in exceptions
 
 @api_router.put("/{event_id}", response_model=EventDto)
+@has_roles(["admin"])
 def update_event_api(event_id: int, payload: UpdateEventRequestDto, db: Session = Depends(get_db)):
     # Add validations
     if not event_id:
@@ -29,6 +32,7 @@ def update_event_api(event_id: int, payload: UpdateEventRequestDto, db: Session 
 
 
 @api_router.delete("/{event_id}", response_model=DeleteEventResponse)
+@has_roles(["admin"])
 def delete_event_api(event_id: int, db: Session = Depends(get_db)):
     # Add validations
     if not event_id:

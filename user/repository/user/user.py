@@ -21,6 +21,9 @@ def get_user_by_parameter(parameter, value, db: Session):
     
     if parameter == "email":
         user = db.query(User).filter(User.email == value).first()
+    
+    if parameter == "username":
+        user = db.query(User).filter(User.username == value).first()
    
     if not user:
         return None
@@ -42,10 +45,20 @@ def create_user(user_dto: UserDto, db: Session):
     db.refresh(user)
     return user
 
-def assign_roles(assign_roles_dto:AssignRoleRequestDto, db:Session):
-    print("===================DATA ===========", assign_roles_dto.__dict__)
-    roles = db.query(Role).filter(Role.name.in_(assign_roles_dto.roles)).all()
-    user = db.query(User).filter(User.username == assign_roles_dto.username).first()
+def update_password(user: User, new_hashed_password:str, db: Session):
+    user.hashed_password=new_hashed_password
+    try:
+        db.commit()
+        db.refresh(user)
+    except SQLAlchemyError as e:
+        db.rollback()
+        raise
+
+    return user
+
+def assign_roles(username, roles, db:Session):
+    roles = db.query(Role).filter(Role.name.in_(roles)).all()
+    user = db.query(User).filter(User.username == username).first()
     if not user:
         raise ValueError("User not found")
 

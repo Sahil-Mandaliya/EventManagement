@@ -7,3 +7,6 @@ class AssignRoleResponseDto(BaseModel):
     username: str
     roles: List[str]
 
+
+class LoginResponseDto(BaseModel):
+    message: str

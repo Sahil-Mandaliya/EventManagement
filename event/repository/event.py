@@ -1,4 +1,6 @@
+from datetime import date
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from event.models.event import Event
 
@@ -36,7 +38,7 @@ def update_event_to_db(event_data:Event, db: Session):
 
 def delete_event_from_db(event_id, db: Session):
     try:
-        event  = get_event_by_id(event_id, db)
+        event  = get_event_by_id_from_db(event_id, db)
         event.is_deleted= True
         db.commit()
         db.refresh(event)
@@ -45,3 +47,24 @@ def delete_event_from_db(event_id, db: Session):
         raise
 
     return
+
+def search_events_in_db(filters: dict, db:Session):
+    try: 
+        events = []
+        query = db.query(Event)
+        for parameter in filters.keys():
+            value = filters[parameter]
+            if parameter == "name":
+                query = query.filter(Event.name.ilike(f"%{value}%"))
+            if parameter == "event_date":
+                query = query.filter(func.date(Event.start_time)==value)
+            if parameter == "location":
+                query = query.filter(Event.location.ilike(f"%{value}%"))
+
+        events = query.all()
+        return events
+    except SQLAlchemyError as e:
+        db.rollback()
+        raise
+
+    return    

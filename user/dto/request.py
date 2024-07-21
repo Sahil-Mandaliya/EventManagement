@@ -1,17 +1,20 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
-from user.dto.user import RoleDto
-
 class RegisterUserRequestDto(BaseModel):
     full_name: str
-    username: str
-    email: Optional[str]
-    phone: str
+    username: Optional[str]
+    email: str
+    phone: Optional[str]
     password: str
+    roles: Optional[List[str]]
 
 class AssignRoleRequestDto(BaseModel):
     username: str
     roles: List[str]
 
+
+class LoginRequestDto(BaseModel):
+    username: str
+    password: str
 
