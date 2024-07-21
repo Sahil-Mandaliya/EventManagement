@@ -21,7 +21,6 @@ class User(TimeStampModel):
     hashed_password = Column(String(200))
     
     roles = relationship("Role", secondary=user_roles, back_populates="users")
-    event_registrations = relationship("EventRegistration", back_populates="user")
 
 
 class Role(TimeStampModel):
@@ -30,4 +29,4 @@ class Role(TimeStampModel):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), unique=True, index=True, nullable=False)
     
-    users = relationship("User",secondary=user_roles, back_populates="roles")
+    users = relationship("User", secondary=user_roles, back_populates="roles")

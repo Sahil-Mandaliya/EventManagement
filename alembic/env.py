@@ -5,9 +5,9 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-
-from user.models import *
-from event.models import *
+from user.models.user import User, Role
+from event.models.event_registration import EventRegistration
+from event.models.event import Event
 from main_app.database import Base
 from main_app.settings import env
 

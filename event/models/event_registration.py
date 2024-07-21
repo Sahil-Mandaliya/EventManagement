@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 from main_app.database import Base
 from main_app.models import TimeStampModel, SoftDeleteModel
 
-
 class EventRegistration(TimeStampModel, SoftDeleteModel):
     __tablename__ = "event_registration"
     
@@ -16,4 +15,3 @@ class EventRegistration(TimeStampModel, SoftDeleteModel):
     additional_notes = Column(String(500))
 
     event = relationship("Event", back_populates="event_registrations")
-    user = relationship("User", back_populates="event_registrations")

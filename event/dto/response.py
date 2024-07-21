@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List
 from pydantic import BaseModel
 
-from event.dto.event import EventDto, EventRegistration as EventRegistrationDto
+from event.dto.event import EventDto, EventRegistrationDto as EventRegistrationDto
 from main_app.api import ApiResponse
 
 

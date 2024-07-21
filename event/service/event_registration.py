@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from event.dto.request import  EventRegistrationRequest
-from event.dto.event import EventDto, EventRegistration as EventRegistrationDto
+from event.dto.event import EventDto, EventRegistrationDto as EventRegistrationDto
 
 from event.repository.event_registration import create_event_registration_to_db
 

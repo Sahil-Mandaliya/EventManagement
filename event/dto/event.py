@@ -16,7 +16,7 @@ class EventDto(BaseModel):
         orm_mode = True
 
 
-class EventRegistration(BaseModel):
+class EventRegistrationDto(BaseModel):
     registration_id: int
     event: EventDto
     user_id: int
