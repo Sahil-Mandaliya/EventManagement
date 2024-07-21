@@ -1,5 +1,5 @@
 from typing import List, Optional
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from event.dto.event import EventDto
 from event.service.event import search_events
 from main_app.database import get_db
@@ -15,5 +15,11 @@ def search_event_by_param(
         db: Session = Depends(get_db)
     ):
     # Add validations
-    return search_events(name, event_date, location, db)
+    try:
+        events = search_events(name, event_date, location, db)
+        return events
+    except HTTPException as err:
+        raise
+    except Exception as err:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Something went wrong!")
     # Add rollback in exceptions

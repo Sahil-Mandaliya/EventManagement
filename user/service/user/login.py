@@ -1,13 +1,9 @@
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from auth.auth import create_access_token, verify_password
-from main_app.database import get_db
 
-from main_app.utils.utils import hash_password
-from user.dto.request import RegisterUserRequestDto
-from user.dto.user import UserDto
 from user.models.user import User
-from user.repository.user.user import assign_roles, create_user, get_user_by_parameter
+from user.repository.user.user import get_user_by_parameter
 
 
 def login_user(username:str, password:str, db: Session):

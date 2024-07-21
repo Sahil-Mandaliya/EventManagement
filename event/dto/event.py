@@ -16,11 +16,14 @@ class EventDto(BaseModel):
         orm_mode = True
 
 
-class EventRegistrationDto(BaseModel):
-    event_id: int
+class EventRegistration(BaseModel):
+    registration_id: int
+    event: EventDto
     user_id: int
-    full_name: str
-    email: str
-    phone: str
-    number_of_tickets: Optional[str]
+    registration_date: datetime
+    status: str
+    number_of_tickets: int
     additional_notes: Optional[str]
+
+    class Config:
+        arbitrary_types_allowed = True

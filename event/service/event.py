@@ -21,14 +21,14 @@ def create_event(event_dto:EventDto, db: Session):
         end_time = event_dto.end_time
     )
     new_event = create_event_to_db(event_data=event_data, db=db)
-    return new_event
+    return db_model_to_pydantic(new_event, EventDto)
 
 
 def update_event(event_id, event_dto:UpdateEventRequestDto, db: Session):
     if not event_id:
         raise Exception("Event not found")
     
-    event:Event = get_event_by_id(event_id, db)
+    event:Event = get_event_by_id_from_db(event_id, db)
 
     if event_dto.name:
         event.name = event_dto.name
@@ -52,7 +52,8 @@ def update_event(event_id, event_dto:UpdateEventRequestDto, db: Session):
         raise Exception("End time cannot be before start time")
 
     new_event = update_event_to_db(event_data=event, db=db)
-    return new_event
+
+    return db_model_to_pydantic(new_event, EventDto)
 
 
 

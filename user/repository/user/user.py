@@ -56,16 +56,21 @@ def update_password(user: User, new_hashed_password:str, db: Session):
 
     return user
 
-def assign_roles(username, roles, db:Session):
-    roles = db.query(Role).filter(Role.name.in_(roles)).all()
-    user = db.query(User).filter(User.username == username).first()
+def assign_roles(username, new_roles, db:Session):
+    roles = db.query(Role).filter(Role.name.in_(new_roles)).all()
+    user: User = db.query(User).filter(User.username == username).first()
     if not user:
         raise ValueError("User not found")
 
     if not roles:
         raise ValueError("Roles not found")
 
-    user.roles = roles
+    existing_roles = user.roles
+    if not existing_roles:
+        existing_roles = []
+    
+    updated_roles = existing_roles + roles
+    user.roles = updated_roles
     db.commit()
     db.refresh(user)
     return user

@@ -10,15 +10,15 @@ from user.repository.user.user import assign_roles, create_user
 
 
 def assign_roles_to_user(assign_roles_request_dto:AssignRoleRequestDto, db: Session):
-    updated_user = assign_roles(username=assign_roles_request_dto.username, roles=assign_roles_request_dto.roles, db=db)
+    updated_user = assign_roles(username=assign_roles_request_dto.username, new_roles=assign_roles_request_dto.roles, db=db)
     roles = updated_user.roles
     roles_str = []
     for role in roles:
         roles_str.append(role.name)
 
-    print("=========== ROLES =========== ", roles_str)
     response  = AssignRoleResponseDto(
         username=updated_user.username,
         roles=roles_str
     )
+
     return response
