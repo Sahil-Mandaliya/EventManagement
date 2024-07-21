@@ -6,5 +6,3 @@ from sqlalchemy import engine_from_config, pool
 from dotenv import load_dotenv
 
 DATABASE_URL = environ.get("DATABASE_URL")
-config = context.config
-config.set_main_option('sqlalchemy.url', DATABASE_URL)
