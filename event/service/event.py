@@ -1,8 +1,10 @@
+from fastapi import Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
 from datetime import datetime
 from typing import Optional
 from dateutil.relativedelta import relativedelta
-from fastapi import Depends
-from sqlalchemy.orm import Session
+
 from event.dto.event import EventDto
 from event.dto.request import UpdateEventRequestDto
 from event.repository.event import create_event_to_db, delete_event_from_db, get_all_events_from_db, get_event_by_id_from_db, search_events_in_db, update_event_to_db
@@ -28,7 +30,9 @@ def update_event(event_id, event_dto:UpdateEventRequestDto, db: Session):
     if not event_id:
         raise Exception("Event not found")
     
-    event:Event = get_event_by_id_from_db(event_id, db)
+    event = get_event_by_id_from_db(event_id, db)
+    if not event:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Event is no longer active")
 
     if event_dto.name:
         event.name = event_dto.name

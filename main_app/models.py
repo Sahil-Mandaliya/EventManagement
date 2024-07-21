@@ -1,7 +1,5 @@
 from main_app.database import Base
 from sqlalchemy import Column, Integer, DateTime, func, Boolean
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.sql import expression
 from sqlalchemy.ext.declarative import declared_attr
 
 

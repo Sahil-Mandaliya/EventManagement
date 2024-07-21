@@ -16,6 +16,7 @@ def get_all_events_api(db: Session = Depends(get_db)):
     except HTTPException as err:
         raise
     except Exception as err:
+        raise
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Something went wrong!")
     # Add rollback in exceptions
 
