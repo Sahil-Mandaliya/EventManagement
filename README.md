@@ -122,4 +122,5 @@ make start
 #### 5.1. Url
 ```sh
 {base_url}/docs - (Base URL is mentioned in the shared postman collection)
+To Access the database : {base_url}:8091
 ```
