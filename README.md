@@ -2,7 +2,6 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-  - [Table of Contents](#table-of-contents)
 - [Event Management Service](#event-management-service)
     - [1. Requirements](#1-requirements)
       - [1.1. Docker](#11-docker)
@@ -17,22 +16,6 @@
     - [4. One time activity](#4-one-time-activity)
     - [5. Swagger](#5-swagger)
       - [5.1. Url](#51-url)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-## Table of Contents
-
-- [Event Management API](#event-api)
-    - [1. Requirements](#1-requirements)
-      - [1.1. Docker](#11-docker)
-      - [1.2. pyenv](#12-pyenv)
-      - [1.3. git](#13-git)
-      - [1.4. mysql](#14-mysql)
-      - [1.5. Update the ~/.zshrc file (MAC)](#15-update-the-zshrc-file-mac)
-    - [2. Development Setup](#2-development-setup)
-      - [2.1. Checkout and Env file](#21-checkout-and-env-file)
-      - [2.2. Building Image and Running Service](#22-building-image-and-running-service)
-    - [3. Deployment](#3-deployment)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
