@@ -106,6 +106,7 @@ To deploy new changes, checkout to the branch you want to build and
 then run following command-
 
 ```sh
+git pull origin master
 make build
 make start
 ```
