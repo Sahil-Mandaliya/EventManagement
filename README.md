@@ -1,6 +1,28 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-- [Event Management API](#jodo-api)
+  - [Table of Contents](#table-of-contents)
+- [Event Management Service](#event-management-service)
+    - [1. Requirements](#1-requirements)
+      - [1.1. Docker](#11-docker)
+      - [1.2. pyenv](#12-pyenv)
+      - [1.3. git](#13-git)
+      - [1.4. mysql](#14-mysql)
+      - [1.5. Update the ~/.zshrc file (MAC)](#15-update-the-zshrc-file-mac)
+    - [2. Development Setup](#2-development-setup)
+      - [2.1. Checkout and Env file](#21-checkout-and-env-file)
+      - [2.2. Building Image and Running Service](#22-building-image-and-running-service)
+    - [3. Deployment](#3-deployment)
+    - [4. One time activity](#4-one-time-activity)
+    - [5. Swagger](#5-swagger)
+      - [5.1. Url](#51-url)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Table of Contents
+
+- [Event Management API](#event-api)
     - [1. Requirements](#1-requirements)
       - [1.1. Docker](#11-docker)
       - [1.2. pyenv](#12-pyenv)
@@ -68,9 +90,7 @@ cd ~/src/tech
 git clone https://github.com/Sahil-Mandaliya/EventManagement.git
 ```
 
-Create env file, activate pyenv and install requirements. This is required to
-enable your editor to pull information of the modules being used in order to
-show hints.
+Create env file, activate pyenv and install requirements.
 
 ```sh
 cd ~/src/tech/EventManagement
@@ -90,10 +110,10 @@ In order to build the service image and run the service run following command.
 cd ~/src/tech/EventManagement
 make install # installs requirements
 make build # builds the api service image
-make start
-make migration
-make migrate
-make create-superuser USERNAME={} PASSWORD={} EMAIL={} FULL_NAME={} PHONE={} # Admin user - Access to add new user/events/ asssign roles
+make start # starts the server
+make migration # creates database migrations
+make migrate # applies migration to database
+make create-superuser USERNAME={} PASSWORD={} EMAIL={} FULL_NAME={} PHONE={} # Creates User With Admin Access
 
 ```
 
@@ -110,7 +130,7 @@ make start
 
 ### 4. One time activity
 
-* To start with After Creating super user - Creates One Admin User and Adds Roles ["admin", "user"] in the system
+* Create Super User using above mentioned command [Creates One Admin User and Adds Roles ["admin", "user"] in the system]
 * Login to current system for super user using Login API - It will returns the Access token [ Valid for 60 minutes ]
 * Super User Can Add New Users
 * Can Assign roles to users
